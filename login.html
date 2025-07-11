@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Portal Lowongan Kerja</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            padding-bottom: 70px;
+        }
+        header {
+            background-color: #1e90ff;
+            padding: 15px 0;
+            color: white;
+            text-align: center;
+        }
+        nav {
+            background-color: #333;
+            overflow: hidden;
+        }
+        nav a {
+            float: left;
+            display: block;
+            color: #fff;
+            text-align: center;
+            padding: 12px 16px;
+            text-decoration: none;
+        }
+        nav a:hover {
+            background-color: #575757;
+        }
+        .container {
+            padding: 40px 20px;
+            max-width: 400px;
+            margin: auto;
+            background-color: white;
+            border-radius: 8px;
+            margin-top: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        h2 {
+            text-align: center;
+        }
+        .role-selection {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+        .role-selection button {
+            padding: 10px 20px;
+            border: none;
+            background-color: #1e90ff;
+            color: white;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .role-selection button:hover {
+            background-color: #0d75d8;
+        }
+        .role-selection button.active {
+            background-color: #0d75d8;
+        }
+        form {
+            display: none;
+            margin-top: 20px;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        input[type="text"],
+        input[type="password"],
+        input[type="email"] {
+            width: 100%;
+            padding: 8px;
+            margin-top: 4px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+        button[type="submit"] {
+            margin-top: 15px;
+            padding: 10px;
+            width: 100%;
+            background-color: #1e90ff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button[type="submit"]:hover {
+            background-color: #0d75d8;
+        }
+        .form-toggle {
+            text-align: center;
+            margin-top: 15px;
+        }
+        .form-toggle a {
+            color: #1e90ff;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .form-toggle a:hover {
+            text-decoration: underline;
+        }
+        footer {
+            background-color: #1e90ff;
+            color: white;
+            text-align: center;
+            padding: 15px 0;
+            font-size: 14px;
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            z-index: 100;
+        }
+        .form-container {
+            min-height: 300px;
+        }
+        .message {
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            text-align: center;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Portal Lowongan Kerja</h1>
+    </header>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="contact.html">Contact</a>
+        <a href="alowongan.php">Lowongan</a>
+        <a href="profil.html">Profil</a>
+        <a href="login.html">Register & Login</a>
+        <a href="info.html">Informasi Umum</a>
+    </nav>
+
+    <div class="container">
+        <h2>Login Sebagai</h2>
+        
+        <!-- Messages -->
+        <div id="messages"></div>
+        
+        <div class="role-selection">
+            <button id="adminBtn" onclick="showForm('admin')">Admin</button>
+            <button id="userBtn" onclick="showForm('user')">User</button>
+        </div>
+
+        <div class="form-container">
+            <!-- Form Login Admin -->
+            <form id="adminForm" method="POST" action="auth.php">
+                <h3>Login Admin</h3>
+                <input type="hidden" name="action" value="admin_login">
+                
+                <label for="adminUsername">Username:</label>
+                <input type="text" id="adminUsername" name="adminUsername" required>
+
+                <label for="adminPassword">Password:</label>
+                <input type="password" id="adminPassword" name="adminPassword" required>
+
+                <button type="submit">Login</button>
+            </form>
+
+            <!-- Form Login User -->
+            <form id="userLoginForm" method="POST" action="auth.php">
+                <h3>Login User</h3>
+                <input type="hidden" name="action" value="user_login">
+                
+                <label for="userEmail">Email:</label>
+                <input type="email" id="userEmail" name="userEmail" required>
+
+                <label for="userPassword">Password:</label>
+                <input type="password" id="userPassword" name="userPassword" required>
+
+                <button type="submit">Login</button>
+                
+                <div class="form-toggle">
+                    <p>Belum punya akun? <a onclick="showRegisterForm()">Daftar di sini</a></p>
+                </div>
+            </form>
+
+            <!-- Form Registrasi User -->
+            <form id="userRegisterForm" method="POST" action="auth.php">
+                <h3>Registrasi User</h3>
+                <input type="hidden" name="action" value="user_register">
+                
+                <label for="regName">Nama Lengkap:</label>
+                <input type="text" id="regName" name="regName" required>
+
+                <label for="regEmail">Email:</label>
+                <input type="email" id="regEmail" name="regEmail" required>
+
+                <label for="regPhone">No. Telepon:</label>
+                <input type="text" id="regPhone" name="regPhone" required>
+
+                <label for="regPassword">Password:</label>
+                <input type="password" id="regPassword" name="regPassword" required>
+
+                <label for="regConfirmPassword">Konfirmasi Password:</label>
+                <input type="password" id="regConfirmPassword" name="regConfirmPassword" required>
+
+                <button type="submit">Daftar</button>
+                
+                <div class="form-toggle">
+                    <p>Sudah punya akun? <a onclick="showLoginForm()">Login di sini</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Portal Lowongan Kerja Indonesia. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        let currentUserFormMode = 'login';
+
+        function showForm(role) {
+            document.getElementById('adminForm').style.display = 'none';
+            document.getElementById('userLoginForm').style.display = 'none';
+            document.getElementById('userRegisterForm').style.display = 'none';
+            
+            document.getElementById('adminBtn').classList.remove('active');
+            document.getElementById('userBtn').classList.remove('active');
+
+            if (role === 'admin') {
+                document.getElementById('adminForm').style.display = 'block';
+                document.getElementById('adminBtn').classList.add('active');
+            } else if (role === 'user') {
+                document.getElementById('userBtn').classList.add('active');
+                if (currentUserFormMode === 'login') {
+                    document.getElementById('userLoginForm').style.display = 'block';
+                } else {
+                    document.getElementById('userRegisterForm').style.display = 'block';
+                }
+            }
+        }
+
+        function showRegisterForm() {
+            currentUserFormMode = 'register';
+            document.getElementById('userLoginForm').style.display = 'none';
+            document.getElementById('userRegisterForm').style.display = 'block';
+        }
+
+        function showLoginForm() {
+            currentUserFormMode = 'login';
+            document.getElementById('userRegisterForm').style.display = 'none';
+            document.getElementById('userLoginForm').style.display = 'block';
+        }
+
+        // Check for messages from URL parameters
+        function checkMessages() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const error = urlParams.get('error');
+            const success = urlParams.get('success');
+            const messagesDiv = document.getElementById('messages');
+            
+            if (error) {
+                let message = '';
+                switch(error) {
+                    case 'admin_login_failed':
+                        message = 'Username atau password admin salah!';
+                        break;
+                    case 'user_login_failed':
+                        message = 'Email atau password salah!';
+                        break;
+                    case 'password_mismatch':
+                        message = 'Password dan konfirmasi password tidak cocok!';
+                        break;
+                    case 'email_exists':
+                        message = 'Email sudah terdaftar!';
+                        break;
+                    case 'registration_failed':
+                        message = 'Registrasi gagal! Silakan coba lagi.';
+                        break;
+                    default:
+                        message = 'Terjadi kesalahan!';
+                }
+                messagesDiv.innerHTML = `<div class="message error">${message}</div>`;
+            }
+            
+            if (success) {
+                let message = '';
+                switch(success) {
+                    case 'registration_success':
+                        message = 'Registrasi berhasil! Silakan login dengan akun yang telah dibuat.';
+                        showForm('user');
+                        break;
+                    default:
+                        message = 'Operasi berhasil!';
+                }
+                messagesDiv.innerHTML = `<div class="message success">${message}</div>`;
+            }
+        }
+
+        // Check messages when page loads
+        window.onload = function() {
+            checkMessages();
+        };
+
+        // Client-side validation for registration
+        document.getElementById('userRegisterForm').addEventListener('submit', function(e) {
+            const password = document.getElementById('regPassword').value;
+            const confirmPassword = document.getElementById('regConfirmPassword').value;
+            
+            if (password !== confirmPassword) {
+                e.preventDefault();
+                document.getElementById('messages').innerHTML = '<div class="message error">Password dan konfirmasi password tidak cocok!</div>';
+                return false;
+            }
+        });
+    </script>
+
+</body>
+</html>
